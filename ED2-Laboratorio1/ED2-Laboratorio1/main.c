@@ -137,10 +137,9 @@ ISR(PCINT1_vect)
 			}
 			else{
 				contador1 = ((contador1 << 1) & 0x0F);
-				if (contador1 == 0x0F)
+				if (contador1 == 0x08)
 				{
 					winner = 1;
-					start = 0;
 				}
 			}
 		}
@@ -152,10 +151,9 @@ ISR(PCINT1_vect)
 			}
 			else{
 				contador2 = ((contador2 << 1) & 0x0F);
-				if (contador2 == 0x0F)
+				if (contador2 == 0x08)
 				{
 					winner = 2;
-					start = 0;
 				}
 			}
 		}
