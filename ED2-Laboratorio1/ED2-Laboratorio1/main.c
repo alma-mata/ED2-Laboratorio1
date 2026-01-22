@@ -49,7 +49,7 @@ int main(void)
 			if (reloj == 0)
 			{
 				start = 0x00;
-				TIMSK2 = (0 << TOIE2);
+				TIMSK1 = (0 << TOIE1);
 			}
 			
 		}
@@ -86,14 +86,18 @@ void setup()
 	PCICR |= (1 << PCIE1);
 	
 	// Habilitar interrupciones del TIMER0
-	TCCR0A = 0x00;  // Modo Normal
+	TCCR0A = 0x00;		// Modo Normal
 	TCCR0B = (1 << CS01) ;   //Prescaler 8
 	TCNT0 = 131;
 	TIMSK0 = (1 << TOIE0);
 	
+	// Habilitar interrupciones del TIMER1
+	TCCR1A = 0x00;		// Modo Normal
+	TCCR1B = (1 << CS12);	// Prescaler 256
+	
 	// Interrupciones del TIMER2
 	TCCR2A = 0x00;			// Modo Normal
-	TCCR2B = (1 << CS22) | (1 << CS21) | (1 << CS20);		// Prescaler 256
+	TCCR2B = (1 << CS22) | (1 << CS21) | (1 << CS20);		// Prescaler 1024
 	sei();
 }
 
@@ -103,8 +107,10 @@ ISR(PCINT1_vect)
 {
 	if(!(PINC & 0b00000001)) //Si es PC0 inicia juego
 	{
-		TCNT2 = 100;		// Interrupcion cada 0.05s
-		TIMSK2 = (1 << TOIE2);
+		TCNT1 = 34286;
+		TIMSK1 = (1 << TOIE1);
+		//TCNT2 = 100;		// Interrupcion cada 0.05s
+		//TIMSK2 = (1 << TOIE2);
 	}
 	//if(!(PINC & 0b00000010)) // Si es PC1 aumenta Jugador 1
 	//{
@@ -115,6 +121,7 @@ ISR(PCINT1_vect)
 		//contador--;
 	//}
 }
+
 ISR(TIMER0_OVF_vect)
 {
 	if (estado_actual == 0b0001)
@@ -126,12 +133,18 @@ ISR(TIMER0_OVF_vect)
 		estado_actual = 0b0001;	// DISPLAY
 	}
 }
-ISR(TIMER2_OVF_vect)
+
+ISR(TIMER1_OVF_vect)
 {
-	if (contador_tm2 == 50)
-	{
-		bandera_tm2 = 1;
-		contador_tm2 = 0;
-	}
-	contador_tm2++;
+	bandera_tm2 = 1;
 }
+
+//ISR(TIMER2_OVF_vect)
+//{
+	//if (contador_tm2 == 50)
+	//{
+		//bandera_tm2 = 1;
+		//contador_tm2 = 0;
+	//}
+	//contador_tm2++;
+//}
