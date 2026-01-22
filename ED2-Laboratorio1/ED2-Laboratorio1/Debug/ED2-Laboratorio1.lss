@@ -3,31 +3,31 @@ ED2-Laboratorio1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000012  00800100  000001de  00000272  2**0
+  0 .data         00000012  00800100  00000298  0000032c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000001de  00000000  00000000  00000094  2**1
+  1 .text         00000298  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000003  00800112  00800112  00000284  2**0
+  2 .bss          00000006  00800112  00800112  0000033e  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000284  2**0
+  3 .comment      00000030  00000000  00000000  0000033e  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002b4  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000370  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000060  00000000  00000000  000002f4  2**0
+  5 .debug_aranges 00000070  00000000  00000000  000003b0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000833  00000000  00000000  00000354  2**0
+  6 .debug_info   00000898  00000000  00000000  00000420  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000006e2  00000000  00000000  00000b87  2**0
+  7 .debug_abbrev 000006fa  00000000  00000000  00000cb8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000003d7  00000000  00000000  00001269  2**0
+  8 .debug_line   0000048f  00000000  00000000  000013b2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000000bc  00000000  00000000  00001640  2**2
+  9 .debug_frame  000000dc  00000000  00000000  00001844  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000401  00000000  00000000  000016fc  2**0
+ 10 .debug_str    0000042d  00000000  00000000  00001920  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000000e7  00000000  00000000  00001afd  2**0
+ 11 .debug_loc    000000e7  00000000  00000000  00001d4d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000040  00000000  00000000  00001be4  2**0
+ 12 .debug_ranges 00000050  00000000  00000000  00001e34  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -37,7 +37,7 @@ Disassembly of section .text:
    4:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
    8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
    c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  10:	0c 94 ae 00 	jmp	0x15c	; 0x15c <__vector_4>
+  10:	0c 94 d3 00 	jmp	0x1a6	; 0x1a6 <__vector_4>
   14:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   1c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
@@ -46,10 +46,10 @@ Disassembly of section .text:
   28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   2c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  34:	0c 94 de 00 	jmp	0x1bc	; 0x1bc <__vector_13>
+  34:	0c 94 3b 01 	jmp	0x276	; 0x276 <__vector_13>
   38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
-  40:	0c 94 c7 00 	jmp	0x18e	; 0x18e <__vector_16>
+  40:	0c 94 24 01 	jmp	0x248	; 0x248 <__vector_16>
   44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   48:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
   4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
@@ -72,8 +72,8 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	ee ed       	ldi	r30, 0xDE	; 222
-  7c:	f1 e0       	ldi	r31, 0x01	; 1
+  7a:	e8 e9       	ldi	r30, 0x98	; 152
+  7c:	f2 e0       	ldi	r31, 0x02	; 2
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
@@ -91,11 +91,11 @@ Disassembly of section .text:
   92:	1d 92       	st	X+, r1
 
 00000094 <.do_clear_bss_start>:
-  94:	a5 31       	cpi	r26, 0x15	; 21
+  94:	a8 31       	cpi	r26, 0x18	; 24
   96:	b2 07       	cpc	r27, r18
   98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
-  9a:	0e 94 84 00 	call	0x108	; 0x108 <main>
-  9e:	0c 94 ed 00 	jmp	0x1da	; 0x1da <_exit>
+  9a:	0e 94 b5 00 	call	0x16a	; 0x16a <main>
+  9e:	0c 94 4a 01 	jmp	0x294	; 0x294 <_exit>
 
 000000a2 <__bad_interrupt>:
   a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -185,168 +185,289 @@ void setup()
  104:	78 94       	sei
  106:	08 95       	ret
 
-00000108 <main>:
+00000108 <multiplexado>:
+}
+
+void multiplexado()
+{
+	PORTB = 0x00;
+ 108:	15 b8       	out	0x05, r1	; 5
+	if (estado_actual == 0b0001) // mostrar LEDS en PORTD
+ 10a:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <estado_actual>
+ 10e:	81 30       	cpi	r24, 0x01	; 1
+ 110:	91 f4       	brne	.+36     	; 0x136 <multiplexado+0x2e>
+	{
+		out_LEDS = ((contador1 << 4) | contador2);
+ 112:	80 91 17 01 	lds	r24, 0x0117	; 0x800117 <contador1>
+ 116:	20 e1       	ldi	r18, 0x10	; 16
+ 118:	82 9f       	mul	r24, r18
+ 11a:	c0 01       	movw	r24, r0
+ 11c:	11 24       	eor	r1, r1
+ 11e:	90 91 16 01 	lds	r25, 0x0116	; 0x800116 <contador2>
+ 122:	89 2b       	or	r24, r25
+ 124:	80 93 15 01 	sts	0x0115, r24	; 0x800115 <out_LEDS>
+		PORTD = out_LEDS;
+ 128:	80 91 15 01 	lds	r24, 0x0115	; 0x800115 <out_LEDS>
+ 12c:	8b b9       	out	0x0b, r24	; 11
+		PORTB |= LEDS;
+ 12e:	85 b1       	in	r24, 0x05	; 5
+ 130:	82 60       	ori	r24, 0x02	; 2
+ 132:	85 b9       	out	0x05, r24	; 5
+ 134:	08 95       	ret
+	}
+	else // mostrar DISPLAY en PORTD
+	{
+		mostrar_display(reloj);  // Librería Display 7 Segmentos
+ 136:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <reloj>
+ 13a:	90 e0       	ldi	r25, 0x00	; 0
+ 13c:	0e 94 53 00 	call	0xa6	; 0xa6 <mostrar_display>
+		PORTB |= DISPLAY;
+ 140:	85 b1       	in	r24, 0x05	; 5
+ 142:	81 60       	ori	r24, 0x01	; 1
+ 144:	85 b9       	out	0x05, r24	; 5
+ 146:	08 95       	ret
+
+00000148 <cuenta_regresiva>:
+	}
+}
+
+void cuenta_regresiva()
+{
+	reloj--;
+ 148:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <reloj>
+ 14c:	81 50       	subi	r24, 0x01	; 1
+ 14e:	80 93 11 01 	sts	0x0111, r24	; 0x800111 <reloj>
+	bandera_tm1 = 0;
+ 152:	10 92 14 01 	sts	0x0114, r1	; 0x800114 <bandera_tm1>
+	if (reloj == 0)
+ 156:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <reloj>
+ 15a:	81 11       	cpse	r24, r1
+ 15c:	05 c0       	rjmp	.+10     	; 0x168 <cuenta_regresiva+0x20>
+	{
+		start = 0x01;
+ 15e:	81 e0       	ldi	r24, 0x01	; 1
+ 160:	80 93 13 01 	sts	0x0113, r24	; 0x800113 <start>
+		TIMSK1 = (0 << TOIE1);
+ 164:	10 92 6f 00 	sts	0x006F, r1	; 0x80006f <__TEXT_REGION_LENGTH__+0x7f806f>
+ 168:	08 95       	ret
+
+0000016a <main>:
 /****************************************/
 // Función principal
 
 int main(void)
 {
     setup();	// Se llama a la configuracion del arduino
- 108:	0e 94 5b 00 	call	0xb6	; 0xb6 <setup>
+ 16a:	0e 94 5b 00 	call	0xb6	; 0xb6 <setup>
 	
     while (1) 
     {
 		// Cuenta regresiva para comenzar
-		if (bandera_tm2)
- 10c:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <bandera_tm2>
- 110:	88 23       	and	r24, r24
- 112:	79 f0       	breq	.+30     	; 0x132 <main+0x2a>
+		if (bandera_tm1)
+ 16e:	80 91 14 01 	lds	r24, 0x0114	; 0x800114 <bandera_tm1>
+ 172:	88 23       	and	r24, r24
+ 174:	19 f0       	breq	.+6      	; 0x17c <main+0x12>
 		{
-			reloj--;
- 114:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <reloj>
- 118:	81 50       	subi	r24, 0x01	; 1
- 11a:	80 93 11 01 	sts	0x0111, r24	; 0x800111 <reloj>
-			bandera_tm2 = 0;
- 11e:	10 92 13 01 	sts	0x0113, r1	; 0x800113 <bandera_tm2>
-			if (reloj == 0)
- 122:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <reloj>
- 126:	81 11       	cpse	r24, r1
- 128:	04 c0       	rjmp	.+8      	; 0x132 <main+0x2a>
+			cuenta_regresiva();
+ 176:	0e 94 a4 00 	call	0x148	; 0x148 <cuenta_regresiva>
+ 17a:	12 c0       	rjmp	.+36     	; 0x1a0 <main+0x36>
+		}
+		else if (start)
+ 17c:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <start>
+ 180:	88 23       	and	r24, r24
+ 182:	71 f0       	breq	.+28     	; 0x1a0 <main+0x36>
+		{
+			reloj = winner;	 
+ 184:	80 91 12 01 	lds	r24, 0x0112	; 0x800112 <__data_end>
+ 188:	80 93 11 01 	sts	0x0111, r24	; 0x800111 <reloj>
+			if ((winner == 1) || (winner == 2))
+ 18c:	80 91 12 01 	lds	r24, 0x0112	; 0x800112 <__data_end>
+ 190:	81 30       	cpi	r24, 0x01	; 1
+ 192:	21 f0       	breq	.+8      	; 0x19c <main+0x32>
+ 194:	80 91 12 01 	lds	r24, 0x0112	; 0x800112 <__data_end>
+ 198:	82 30       	cpi	r24, 0x02	; 2
+ 19a:	11 f4       	brne	.+4      	; 0x1a0 <main+0x36>
 			{
 				start = 0x00;
- 12a:	10 92 12 01 	sts	0x0112, r1	; 0x800112 <__data_end>
-				TIMSK1 = (0 << TOIE1);
- 12e:	10 92 6f 00 	sts	0x006F, r1	; 0x80006f <__TEXT_REGION_LENGTH__+0x7f806f>
+ 19c:	10 92 13 01 	sts	0x0113, r1	; 0x800113 <start>
 			}
-			
 		}
-		
 		// Multiplexado
-		PORTB = 0x00;
- 132:	15 b8       	out	0x05, r1	; 5
-		if (estado_actual == 0b0001) //DISPLAY
- 134:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <estado_actual>
- 138:	81 30       	cpi	r24, 0x01	; 1
- 13a:	39 f4       	brne	.+14     	; 0x14a <main+0x42>
-		{
-			PORTD = contador;
- 13c:	80 91 14 01 	lds	r24, 0x0114	; 0x800114 <contador>
- 140:	8b b9       	out	0x0b, r24	; 11
-			PORTB |= DISPLAY;
- 142:	85 b1       	in	r24, 0x05	; 5
- 144:	82 60       	ori	r24, 0x02	; 2
- 146:	85 b9       	out	0x05, r24	; 5
- 148:	e1 cf       	rjmp	.-62     	; 0x10c <main+0x4>
-		}
-		else // LEDS
-		{
-			mostrar_display(reloj);  // Librería Display 7 Segmentos
- 14a:	80 91 11 01 	lds	r24, 0x0111	; 0x800111 <reloj>
- 14e:	90 e0       	ldi	r25, 0x00	; 0
- 150:	0e 94 53 00 	call	0xa6	; 0xa6 <mostrar_display>
-			PORTB |= LEDS;
- 154:	85 b1       	in	r24, 0x05	; 5
- 156:	81 60       	ori	r24, 0x01	; 1
- 158:	85 b9       	out	0x05, r24	; 5
- 15a:	d8 cf       	rjmp	.-80     	; 0x10c <main+0x4>
+		multiplexado();
+ 1a0:	0e 94 84 00 	call	0x108	; 0x108 <multiplexado>
+    }
+ 1a4:	e4 cf       	rjmp	.-56     	; 0x16e <main+0x4>
 
-0000015c <__vector_4>:
+000001a6 <__vector_4>:
 }
 
 /****************************************/
 // Subrutinas de Interrupcion
 ISR(PCINT1_vect)
 {
- 15c:	1f 92       	push	r1
- 15e:	0f 92       	push	r0
- 160:	0f b6       	in	r0, 0x3f	; 63
- 162:	0f 92       	push	r0
- 164:	11 24       	eor	r1, r1
- 166:	8f 93       	push	r24
- 168:	9f 93       	push	r25
-	if(!(PINC & 0b00000001)) //Si es PC0 inicia juego
- 16a:	30 99       	sbic	0x06, 0	; 6
- 16c:	09 c0       	rjmp	.+18     	; 0x180 <__vector_4+0x24>
+ 1a6:	1f 92       	push	r1
+ 1a8:	0f 92       	push	r0
+ 1aa:	0f b6       	in	r0, 0x3f	; 63
+ 1ac:	0f 92       	push	r0
+ 1ae:	11 24       	eor	r1, r1
+ 1b0:	8f 93       	push	r24
+ 1b2:	9f 93       	push	r25
+	if (start) // Si el juego ya ha comenzado
+ 1b4:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <start>
+ 1b8:	88 23       	and	r24, r24
+ 1ba:	a1 f1       	breq	.+104    	; 0x224 <__vector_4+0x7e>
 	{
-		TCNT1 = 34286;
- 16e:	8e ee       	ldi	r24, 0xEE	; 238
- 170:	95 e8       	ldi	r25, 0x85	; 133
- 172:	90 93 85 00 	sts	0x0085, r25	; 0x800085 <__TEXT_REGION_LENGTH__+0x7f8085>
- 176:	80 93 84 00 	sts	0x0084, r24	; 0x800084 <__TEXT_REGION_LENGTH__+0x7f8084>
+		if(!(PINC & 0b00000010)) // Si es PC1 aumenta Jugador 1
+ 1bc:	31 99       	sbic	0x06, 1	; 6
+ 1be:	16 c0       	rjmp	.+44     	; 0x1ec <__vector_4+0x46>
+		{
+			if (contador1 == 0)
+ 1c0:	80 91 17 01 	lds	r24, 0x0117	; 0x800117 <contador1>
+ 1c4:	81 11       	cpse	r24, r1
+ 1c6:	04 c0       	rjmp	.+8      	; 0x1d0 <__vector_4+0x2a>
+			{
+				contador1 = 0x01;
+ 1c8:	81 e0       	ldi	r24, 0x01	; 1
+ 1ca:	80 93 17 01 	sts	0x0117, r24	; 0x800117 <contador1>
+ 1ce:	0e c0       	rjmp	.+28     	; 0x1ec <__vector_4+0x46>
+			}
+			else{
+				contador1 = ((contador1 << 1));
+ 1d0:	80 91 17 01 	lds	r24, 0x0117	; 0x800117 <contador1>
+ 1d4:	88 0f       	add	r24, r24
+ 1d6:	80 93 17 01 	sts	0x0117, r24	; 0x800117 <contador1>
+				if (contador1 == 0x0F)
+ 1da:	80 91 17 01 	lds	r24, 0x0117	; 0x800117 <contador1>
+ 1de:	8f 30       	cpi	r24, 0x0F	; 15
+ 1e0:	29 f4       	brne	.+10     	; 0x1ec <__vector_4+0x46>
+				{
+					winner = 1;
+ 1e2:	81 e0       	ldi	r24, 0x01	; 1
+ 1e4:	80 93 12 01 	sts	0x0112, r24	; 0x800112 <__data_end>
+					start = 0;
+ 1e8:	10 92 13 01 	sts	0x0113, r1	; 0x800113 <start>
+				}
+			}
+		}
+		if(!(PINC & 0b00000100)) // Si es PC2 aumenta Jugador 2
+ 1ec:	32 99       	sbic	0x06, 2	; 6
+ 1ee:	25 c0       	rjmp	.+74     	; 0x23a <__vector_4+0x94>
+		{
+			if (contador2 == 0)
+ 1f0:	80 91 16 01 	lds	r24, 0x0116	; 0x800116 <contador2>
+ 1f4:	81 11       	cpse	r24, r1
+ 1f6:	04 c0       	rjmp	.+8      	; 0x200 <__vector_4+0x5a>
+			{
+				contador2 = 0x01;
+ 1f8:	81 e0       	ldi	r24, 0x01	; 1
+ 1fa:	80 93 16 01 	sts	0x0116, r24	; 0x800116 <contador2>
+ 1fe:	1d c0       	rjmp	.+58     	; 0x23a <__vector_4+0x94>
+			}
+			else{
+				contador2 = ((contador2 << 1) & 0x0F);
+ 200:	80 91 16 01 	lds	r24, 0x0116	; 0x800116 <contador2>
+ 204:	90 e0       	ldi	r25, 0x00	; 0
+ 206:	88 0f       	add	r24, r24
+ 208:	99 1f       	adc	r25, r25
+ 20a:	8f 70       	andi	r24, 0x0F	; 15
+ 20c:	80 93 16 01 	sts	0x0116, r24	; 0x800116 <contador2>
+				if (contador2 == 0x0F)
+ 210:	80 91 16 01 	lds	r24, 0x0116	; 0x800116 <contador2>
+ 214:	8f 30       	cpi	r24, 0x0F	; 15
+ 216:	89 f4       	brne	.+34     	; 0x23a <__vector_4+0x94>
+				{
+					winner = 2;
+ 218:	82 e0       	ldi	r24, 0x02	; 2
+ 21a:	80 93 12 01 	sts	0x0112, r24	; 0x800112 <__data_end>
+					start = 0;
+ 21e:	10 92 13 01 	sts	0x0113, r1	; 0x800113 <start>
+ 222:	0b c0       	rjmp	.+22     	; 0x23a <__vector_4+0x94>
+				}
+			}
+		}
+	}
+	else if(!(PINC & 0b00000001)) //Si el juego NO ha comenzado y es PC0
+ 224:	30 99       	sbic	0x06, 0	; 6
+ 226:	09 c0       	rjmp	.+18     	; 0x23a <__vector_4+0x94>
+	{
+		TCNT1 = 34286;	// Interrupción cada 0.5s
+ 228:	8e ee       	ldi	r24, 0xEE	; 238
+ 22a:	95 e8       	ldi	r25, 0x85	; 133
+ 22c:	90 93 85 00 	sts	0x0085, r25	; 0x800085 <__TEXT_REGION_LENGTH__+0x7f8085>
+ 230:	80 93 84 00 	sts	0x0084, r24	; 0x800084 <__TEXT_REGION_LENGTH__+0x7f8084>
 		TIMSK1 = (1 << TOIE1);
- 17a:	81 e0       	ldi	r24, 0x01	; 1
- 17c:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <__TEXT_REGION_LENGTH__+0x7f806f>
-	//}
-	//if(!(PINC & 0b00000100)) // Si es PC2 aumenta Jugador 2
-	//{
-		//contador--;
-	//}
+ 234:	81 e0       	ldi	r24, 0x01	; 1
+ 236:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <__TEXT_REGION_LENGTH__+0x7f806f>
+		//TCNT2 = 100;		// Interrupcion cada 0.05s
+		//TIMSK2 = (1 << TOIE2);
+	}
+	
 }
- 180:	9f 91       	pop	r25
- 182:	8f 91       	pop	r24
- 184:	0f 90       	pop	r0
- 186:	0f be       	out	0x3f, r0	; 63
- 188:	0f 90       	pop	r0
- 18a:	1f 90       	pop	r1
- 18c:	18 95       	reti
+ 23a:	9f 91       	pop	r25
+ 23c:	8f 91       	pop	r24
+ 23e:	0f 90       	pop	r0
+ 240:	0f be       	out	0x3f, r0	; 63
+ 242:	0f 90       	pop	r0
+ 244:	1f 90       	pop	r1
+ 246:	18 95       	reti
 
-0000018e <__vector_16>:
+00000248 <__vector_16>:
 
 ISR(TIMER0_OVF_vect)
 {
- 18e:	1f 92       	push	r1
- 190:	0f 92       	push	r0
- 192:	0f b6       	in	r0, 0x3f	; 63
- 194:	0f 92       	push	r0
- 196:	11 24       	eor	r1, r1
- 198:	8f 93       	push	r24
+ 248:	1f 92       	push	r1
+ 24a:	0f 92       	push	r0
+ 24c:	0f b6       	in	r0, 0x3f	; 63
+ 24e:	0f 92       	push	r0
+ 250:	11 24       	eor	r1, r1
+ 252:	8f 93       	push	r24
 	if (estado_actual == 0b0001)
- 19a:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <estado_actual>
- 19e:	81 30       	cpi	r24, 0x01	; 1
- 1a0:	21 f4       	brne	.+8      	; 0x1aa <__vector_16+0x1c>
+ 254:	80 91 10 01 	lds	r24, 0x0110	; 0x800110 <estado_actual>
+ 258:	81 30       	cpi	r24, 0x01	; 1
+ 25a:	21 f4       	brne	.+8      	; 0x264 <__vector_16+0x1c>
 	{
 		estado_actual = 0b0010; // LEDS
- 1a2:	82 e0       	ldi	r24, 0x02	; 2
- 1a4:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <estado_actual>
- 1a8:	03 c0       	rjmp	.+6      	; 0x1b0 <__vector_16+0x22>
+ 25c:	82 e0       	ldi	r24, 0x02	; 2
+ 25e:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <estado_actual>
+ 262:	03 c0       	rjmp	.+6      	; 0x26a <__vector_16+0x22>
 	}
 	else
 	{
 		estado_actual = 0b0001;	// DISPLAY
- 1aa:	81 e0       	ldi	r24, 0x01	; 1
- 1ac:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <estado_actual>
+ 264:	81 e0       	ldi	r24, 0x01	; 1
+ 266:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <estado_actual>
 	}
 }
- 1b0:	8f 91       	pop	r24
- 1b2:	0f 90       	pop	r0
- 1b4:	0f be       	out	0x3f, r0	; 63
- 1b6:	0f 90       	pop	r0
- 1b8:	1f 90       	pop	r1
- 1ba:	18 95       	reti
+ 26a:	8f 91       	pop	r24
+ 26c:	0f 90       	pop	r0
+ 26e:	0f be       	out	0x3f, r0	; 63
+ 270:	0f 90       	pop	r0
+ 272:	1f 90       	pop	r1
+ 274:	18 95       	reti
 
-000001bc <__vector_13>:
+00000276 <__vector_13>:
 
 ISR(TIMER1_OVF_vect)
 {
- 1bc:	1f 92       	push	r1
- 1be:	0f 92       	push	r0
- 1c0:	0f b6       	in	r0, 0x3f	; 63
- 1c2:	0f 92       	push	r0
- 1c4:	11 24       	eor	r1, r1
- 1c6:	8f 93       	push	r24
-	bandera_tm2 = 1;
- 1c8:	81 e0       	ldi	r24, 0x01	; 1
- 1ca:	80 93 13 01 	sts	0x0113, r24	; 0x800113 <bandera_tm2>
+ 276:	1f 92       	push	r1
+ 278:	0f 92       	push	r0
+ 27a:	0f b6       	in	r0, 0x3f	; 63
+ 27c:	0f 92       	push	r0
+ 27e:	11 24       	eor	r1, r1
+ 280:	8f 93       	push	r24
+	bandera_tm1 = 1;
+ 282:	81 e0       	ldi	r24, 0x01	; 1
+ 284:	80 93 14 01 	sts	0x0114, r24	; 0x800114 <bandera_tm1>
 }
- 1ce:	8f 91       	pop	r24
- 1d0:	0f 90       	pop	r0
- 1d2:	0f be       	out	0x3f, r0	; 63
- 1d4:	0f 90       	pop	r0
- 1d6:	1f 90       	pop	r1
- 1d8:	18 95       	reti
+ 288:	8f 91       	pop	r24
+ 28a:	0f 90       	pop	r0
+ 28c:	0f be       	out	0x3f, r0	; 63
+ 28e:	0f 90       	pop	r0
+ 290:	1f 90       	pop	r1
+ 292:	18 95       	reti
 
-000001da <_exit>:
- 1da:	f8 94       	cli
+00000294 <_exit>:
+ 294:	f8 94       	cli
 
-000001dc <__stop_program>:
- 1dc:	ff cf       	rjmp	.-2      	; 0x1dc <__stop_program>
+00000296 <__stop_program>:
+ 296:	ff cf       	rjmp	.-2      	; 0x296 <__stop_program>

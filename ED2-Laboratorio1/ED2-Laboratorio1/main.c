@@ -19,18 +19,23 @@
 /****************************************/
 // Prototipos de función
 void setup();
+void cuenta_regresiva();
+void multiplexado();
 
 // Variables globales
-volatile uint8_t contador = 0;
-volatile uint8_t contador_tm2 = 0;	// contador de ciclos TIMER2
-volatile uint8_t bandera_tm2 = 0;	// Bandera ciclos TIMER2
+volatile uint8_t contador1 = 0;
+volatile uint8_t contador2 = 0;
+volatile uint8_t out_LEDS = 0;
+
+volatile uint8_t bandera_tm1 = 0;	// Bandera ciclos TIMER2
 volatile uint8_t reloj = 5;			// Cuenta regresiva
 volatile uint8_t start = 0;			// Bandera de comenzar juego
+volatile uint8_t winner = 0;		// Bandera para reconocer al ganador
 uint8_t estado_actual = 0b0001;		// Estado multiplexado
 //uint8_t Tabla7seg[] = {0x40, 0x79, 0x24, 0x30, 0x19, 0x12, 0x02, 0x78, 0x00, 0x10, 0x08, 0x03, 0x46, 0x21, 0x06, 0x0E};
 
-#define LEDS (1 << PORTB0)
-#define DISPLAY (1 << PORTB1)
+#define DISPLAY (1 << PORTB0)
+#define LEDS (1 << PORTB1)
 
 /****************************************/
 // Función principal
@@ -42,30 +47,20 @@ int main(void)
     while (1) 
     {
 		// Cuenta regresiva para comenzar
-		if (bandera_tm2)
+		if (bandera_tm1)
 		{
-			reloj--;
-			bandera_tm2 = 0;
-			if (reloj == 0)
+			cuenta_regresiva();
+		}
+		else if (start)
+		{
+			reloj = winner;	 
+			if ((winner == 1) || (winner == 2))
 			{
 				start = 0x00;
-				TIMSK1 = (0 << TOIE1);
 			}
-			
 		}
-		
 		// Multiplexado
-		PORTB = 0x00;
-		if (estado_actual == 0b0001) //DISPLAY
-		{
-			PORTD = contador;
-			PORTB |= DISPLAY;
-		}
-		else // LEDS
-		{
-			mostrar_display(reloj);  // Librería Display 7 Segmentos
-			PORTB |= LEDS;
-		}
+		multiplexado();
     }
 }
 
@@ -101,25 +96,78 @@ void setup()
 	sei();
 }
 
+void multiplexado()
+{
+	PORTB = 0x00;
+	if (estado_actual == 0b0001) // mostrar LEDS en PORTD
+	{
+		out_LEDS = ((contador1 << 4) | contador2);
+		PORTD = out_LEDS;
+		PORTB |= LEDS;
+	}
+	else // mostrar DISPLAY en PORTD
+	{
+		mostrar_display(reloj);  // Librería Display 7 Segmentos
+		PORTB |= DISPLAY;
+	}
+}
+
+void cuenta_regresiva()
+{
+	reloj--;
+	bandera_tm1 = 0;
+	if (reloj == 0)
+	{
+		start = 0x01;
+		TIMSK1 = (0 << TOIE1);
+	}
+}
+
 /****************************************/
 // Subrutinas de Interrupcion
 ISR(PCINT1_vect)
 {
-	if(!(PINC & 0b00000001)) //Si es PC0 inicia juego
+	if (start) // Si el juego ya ha comenzado
 	{
-		TCNT1 = 34286;
+		if(!(PINC & 0b00000010)) // Si es PC1 aumenta Jugador 1
+		{
+			if (contador1 == 0)
+			{
+				contador1 = 0x01;
+			}
+			else{
+				contador1 = ((contador1 << 1) & 0x0F);
+				if (contador1 == 0x0F)
+				{
+					winner = 1;
+					start = 0;
+				}
+			}
+		}
+		if(!(PINC & 0b00000100)) // Si es PC2 aumenta Jugador 2
+		{
+			if (contador2 == 0)
+			{
+				contador2 = 0x01;
+			}
+			else{
+				contador2 = ((contador2 << 1) & 0x0F);
+				if (contador2 == 0x0F)
+				{
+					winner = 2;
+					start = 0;
+				}
+			}
+		}
+	}
+	else if(!(PINC & 0b00000001)) //Si el juego NO ha comenzado y es PC0
+	{
+		TCNT1 = 34286;	// Interrupción cada 0.5s
 		TIMSK1 = (1 << TOIE1);
 		//TCNT2 = 100;		// Interrupcion cada 0.05s
 		//TIMSK2 = (1 << TOIE2);
 	}
-	//if(!(PINC & 0b00000010)) // Si es PC1 aumenta Jugador 1
-	//{
-		//contador++;
-	//}
-	//if(!(PINC & 0b00000100)) // Si es PC2 aumenta Jugador 2
-	//{
-		//contador--;
-	//}
+	
 }
 
 ISR(TIMER0_OVF_vect)
@@ -136,7 +184,7 @@ ISR(TIMER0_OVF_vect)
 
 ISR(TIMER1_OVF_vect)
 {
-	bandera_tm2 = 1;
+	bandera_tm1 = 1;
 }
 
 //ISR(TIMER2_OVF_vect)
