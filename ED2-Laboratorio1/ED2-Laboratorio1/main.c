@@ -93,7 +93,7 @@ void setup()
 	
 	// Interrupciones del TIMER2
 	TCCR2A = 0x00;			// Modo Normal
-	TCCR2B = (1 << CS22) | (1 << CS21);		// Prescaler 256
+	TCCR2B = (1 << CS22) | (1 << CS21) | (1 << CS20);		// Prescaler 256
 	sei();
 }
 
@@ -103,7 +103,7 @@ ISR(PCINT1_vect)
 {
 	if(!(PINC & 0b00000001)) //Si es PC0 inicia juego
 	{
-		TCNT2 = 61;		// Interrupcion cada 0.05s
+		TCNT2 = 100;		// Interrupcion cada 0.05s
 		TIMSK2 = (1 << TOIE2);
 	}
 	//if(!(PINC & 0b00000010)) // Si es PC1 aumenta Jugador 1
@@ -128,10 +128,10 @@ ISR(TIMER0_OVF_vect)
 }
 ISR(TIMER2_OVF_vect)
 {
-	if (contador_tm2 == 5)
+	if (contador_tm2 == 50)
 	{
 		bandera_tm2 = 1;
-		//contador_tm2 = 0;
+		contador_tm2 = 0;
 	}
 	contador_tm2++;
 }
