@@ -9,10 +9,9 @@
 */
 /****************************************/
 // Encabezado
-#define F_CPU 16000000	//Frecuencia es 16Mhz
-#include <util/delay.h>
-#include <avr/io.h>
-#include <avr/interrupt.h>
+#define F_CPU 16000000		//Frecuencia es 16Mhz
+#include <avr/io.h>			
+#include <avr/interrupt.h>	// Librería de interrupciones
 #include <stdint.h>
 #include "display7seg/display7seg.h" //SIEMPRE usar con el PORTD
 
@@ -21,21 +20,22 @@
 void setup();
 void cuenta_regresiva();
 void multiplexado();
+void reinicio_variables();
 
 // Variables globales
-volatile uint8_t contador1 = 0;
-volatile uint8_t contador2 = 0;
+volatile uint8_t contador1 = 0;		// Contador jugador 1
+volatile uint8_t contador2 = 0;		// Contador jugador 2
 volatile uint8_t out_LEDS = 0;
 
-volatile uint8_t bandera_tm1 = 0;	// Bandera ciclos TIMER2
-volatile uint8_t reloj = 5;			// Cuenta regresiva
-volatile uint8_t start = 0;			// Bandera de comenzar juego
-volatile uint8_t winner = 0;		// Bandera para reconocer al ganador
-uint8_t estado_actual = 0b0001;		// Estado multiplexado
-//uint8_t Tabla7seg[] = {0x40, 0x79, 0x24, 0x30, 0x19, 0x12, 0x02, 0x78, 0x00, 0x10, 0x08, 0x03, 0x46, 0x21, 0x06, 0x0E};
+volatile uint8_t bandera_tm1 = 0;		// Bandera ciclos TIMER1
+volatile uint8_t bandera_reinicio = 0;	// Bandera reinicio de valores del juego
+volatile uint8_t reloj = 5;				// Cuenta regresiva
+volatile uint8_t start = 0;				// Bandera de comenzar juego
+volatile uint8_t winner = 0;			// Bandera para reconocer al ganador
+uint8_t estado_actual = 0b0001;			// Estado multiplexado
 
-#define DISPLAY (1 << PORTB0)
-#define LEDS (1 << PORTB1)
+#define DISPLAY (1 << PORTB0)		// Pin del PORTB que enciende el display
+#define LEDS (1 << PORTB1)			// Pin del PORTB que enciende los leds
 
 /****************************************/
 // Función principal
@@ -46,17 +46,31 @@ int main(void)
 	
     while (1) 
     {
+		// Reinicio de variables
+		if (bandera_reinicio)
+		{
+			reinicio_variables();
+		}
 		// Cuenta regresiva para comenzar
-		if (bandera_tm1)
+		else if (bandera_tm1)
 		{
 			cuenta_regresiva();
 		}
-		else if (start)
-		{
-			reloj = winner;	 
-			if ((winner == 1) || (winner == 2))
+		else if (start) // Si el juego ya a comenzado
+		{	 
+			if ((winner == 1) || (winner == 2)) // Si gano jugador 1 o 2
 			{
-				start = 0x00;
+				start = 0x00;		// Reiniciar variable
+				reloj = winner;		// Mostrar ganador en el display
+				contador1 = 0;		// Reiniciar contadores
+				contador2 = 0;
+				if (winner == 1)	// Encender LEDs del ganador
+				{
+					contador1 = 0x0F;
+				}
+				else{
+					contador2 = 0x0F;
+				}
 			}
 		}
 		// Multiplexado
@@ -89,10 +103,7 @@ void setup()
 	// Habilitar interrupciones del TIMER1
 	TCCR1A = 0x00;		// Modo Normal
 	TCCR1B = (1 << CS12);	// Prescaler 256
-	
-	// Interrupciones del TIMER2
-	TCCR2A = 0x00;			// Modo Normal
-	TCCR2B = (1 << CS22) | (1 << CS21) | (1 << CS20);		// Prescaler 1024
+
 	sei();
 }
 
@@ -114,15 +125,23 @@ void multiplexado()
 
 void cuenta_regresiva()
 {
-	reloj--;
-	bandera_tm1 = 0;
-	if (reloj == 0)
+	reloj--;			// Disminuye contador de reloj
+	bandera_tm1 = 0;	// Desactiva bandera del TIMER1
+	if (reloj == 0)		// Si la cuenta llego a 0
 	{
-		start = 0x01;
-		TIMSK1 = (0 << TOIE1);
+		start = 0x01;			// Comenzar el juego
+		TIMSK1 = (0 << TOIE1);	// Desactivar interrupciones del TIMER1
 	}
 }
 
+void reinicio_variables()
+{
+	bandera_reinicio = 0;
+	winner = 0;
+	contador1 = 0;
+	contador2 = 0;
+	reloj = 6;
+}
 /****************************************/
 // Subrutinas de Interrupcion
 ISR(PCINT1_vect)
@@ -131,29 +150,29 @@ ISR(PCINT1_vect)
 	{
 		if(!(PINC & 0b00000010)) // Si es PC1 aumenta Jugador 1
 		{
-			if (contador1 == 0)
+			if (contador1 == 0)		// Si el contador es 0
 			{
-				contador1 = 0x01;
+				contador1 = 0x01;	// Inicializarlo con 1
 			}
-			else{
-				contador1 = ((contador1 << 1) & 0x0F);
-				if (contador1 == 0x08)
+			else{					// De lo contrario
+				contador1 = ((contador1 << 1) & 0x0F);	// Correr los bits 1 posición
+				if (contador1 == 0x08)	// Si es 0b1000
 				{
-					winner = 1;
+					winner = 1;			// Declararlo como ganador
 				}
 			}
 		}
 		if(!(PINC & 0b00000100)) // Si es PC2 aumenta Jugador 2
 		{
-			if (contador2 == 0)
+			if (contador2 == 0)		// Si el contador es 0
 			{
-				contador2 = 0x01;
+				contador2 = 0x01;	// Inicializarlo con 1
 			}
-			else{
-				contador2 = ((contador2 << 1) & 0x0F);
-				if (contador2 == 0x08)
+			else{					// De lo contrario
+				contador2 = ((contador2 << 1) & 0x0F);	// Correr los bits 1 posición
+				if (contador2 == 0x08)	// Si es 0b1000
 				{
-					winner = 2;
+					winner = 2;			// Declararlo como ganador
 				}
 			}
 		}
@@ -161,14 +180,13 @@ ISR(PCINT1_vect)
 	else if(!(PINC & 0b00000001)) //Si el juego NO ha comenzado y es PC0
 	{
 		TCNT1 = 34286;	// Interrupción cada 0.5s
-		TIMSK1 = (1 << TOIE1);
-		//TCNT2 = 100;		// Interrupcion cada 0.05s
-		//TIMSK2 = (1 << TOIE2);
+		TIMSK1 = (1 << TOIE1); // Activar interrupciones
+		bandera_reinicio = 1; // Encender bandera para reinicio de variables
 	}
 	
 }
 
-ISR(TIMER0_OVF_vect)
+ISR(TIMER0_OVF_vect)	// Verificar estado actual y cambiarlo al siguiente
 {
 	if (estado_actual == 0b0001)
 	{
@@ -182,15 +200,5 @@ ISR(TIMER0_OVF_vect)
 
 ISR(TIMER1_OVF_vect)
 {
-	bandera_tm1 = 1;
+	bandera_tm1 = 1;	// Activa bandera para decremento del reloj
 }
-
-//ISR(TIMER2_OVF_vect)
-//{
-	//if (contador_tm2 == 50)
-	//{
-		//bandera_tm2 = 1;
-		//contador_tm2 = 0;
-	//}
-	//contador_tm2++;
-//}
